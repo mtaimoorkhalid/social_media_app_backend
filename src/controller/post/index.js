@@ -17,7 +17,7 @@ const PostController = {
 
       res.json({ message: "Got All Post", post });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error: error });
+      return res.status(500).json({ message: "Server Error", error: error });
     }
   },
   update: async (req, res) => {
@@ -26,14 +26,14 @@ const PostController = {
       const prams = req.params;
       const post = await PostModel.findByPk(prams.postId);
       if (!post) {
-        res.status(404).json({ message: "Not User Found" });
+        return res.status(404).json({ message: "Not User Found" });
       }
       post.title = title;
       post.desription = description;
       await post.save();
       res.json({ message: "Posts Update", post });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error: error });
+      return res.status(500).json({ message: "Server Error", error: error });
     }
   },
   notFound: (req, res) => {
@@ -44,7 +44,7 @@ const PostController = {
       await PostModel.destroy();
       res.json({ message: "All Posts Have been deleted" });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error: error });
+      return res.status(500).json({ message: "Server Error", error: error });
     }
   },
   delete: async (req, res) => {
@@ -52,12 +52,12 @@ const PostController = {
       const param = req.params;
       const post = await PostModel.findByPk(param.postId);
       if (!post) {
-        res.status(404).json({ message: "No Such Post" });
+        return res.status(404).json({ message: "No Such Post" });
       }
       await post.destroy();
       res.json({ message: "Post Has been deleted" });
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error: error });
+      return res.status(500).json({ message: "Server Error", error: error });
     }
   },
 };

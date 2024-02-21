@@ -45,7 +45,7 @@ const CommentController = {
       const prams = req.params;
       const comment = await CommentModel.findByPk(prams.commentId);
       if (!comment) {
-        res.status(404).json({ message: "Not User Found" });
+        return res.status(404).json({ message: "Not User Found" });
       }
       comment.description = description;
       await comment.save();
@@ -71,7 +71,7 @@ const CommentController = {
       const params = req.params;
       const comment = await CommentModel.findByPk(params.commentId);
       if (!comment) {
-        res.status(404).json({ message: "Comment not found" });
+        return res.status(404).json({ message: "Comment not found" });
       } else {
         await comment.destroy();
         res.json({ message: "Comment deleted successfully" });
