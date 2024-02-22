@@ -28,7 +28,7 @@ const UserController = {
       const prams = req.params;
       const user = await UserModel.findByPk(prams.userId);
       if (!user) {
-        res.json({ message: "No Such User" });
+        return res.json({ message: "No Such User" });
       }
       user.name = name;
       user.email = email;

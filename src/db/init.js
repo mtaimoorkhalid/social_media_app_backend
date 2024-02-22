@@ -10,4 +10,5 @@ const syncDb = async () => {
   await CommentModel.sync({ force: false, alter: true });
   console.log("The table for the User model was just (re)created!");
 };
+
 export default syncDb;
