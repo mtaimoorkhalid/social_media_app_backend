@@ -1,4 +1,5 @@
 import UserModel from "../../model/user/index.js";
+import UserFollwerModel from "../../model/user/userFollowerModel.js";
 
 const UserController = {
   create: async (req, res) => {

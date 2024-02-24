@@ -1,6 +1,7 @@
 import UserModel from "../model/user/index.js";
 import CommentModel from "../model/comment/index.js";
 import PostModel from "../model/post/index.js";
+import UserFollwerModel from "../model/user/userFollowerModel.js";
 
 const syncDb = async () => {
   await UserModel.sync({ force: false, alter: true });
