@@ -60,5 +60,35 @@ const UserController = {
       return res.status(500).json({ message: "Server Error", error: error });
     }
   },
+
+  follow: async (req, res) => {
+    try {
+      const { followerId, followingId } = req.body;
+      console.log(req.body);
+      const data = await UserFollwerModel.create({
+        followerId: followerId,
+        followingId: followingId,
+      });
+      console.log(data);
+      res.json({ message: "Ho gya" });
+    } catch (error) {
+      return res.json({ error });
+    }
+  },
+
+  getFollowerById: async (req, res) => {
+    try {
+      const params = req.params;
+      const user = await UserModel.findByPk(params.id, {
+        include: ["follower", "following"],
+      });
+      if (!user) {
+        return res.json({ message: "No Followers" });
+      }
+      res.json({ message: "Got All Users", user });
+    } catch (error) {
+      return res.status(500).json({ message: "Server Error", error: error });
+    }
+  },
 };
 export default UserController;

@@ -9,6 +9,8 @@ const syncDb = async () => {
   console.log("The table for the Post model was just (re)created!");
   await CommentModel.sync({ force: false, alter: true });
   console.log("The table for the User model was just (re)created!");
+  await UserFollwerModel.sync({ force: false, alter: true });
+  console.log("The table for the User Follower model was just (re)created!");
 };
 
 export default syncDb;
