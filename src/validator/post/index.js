@@ -4,7 +4,6 @@ const PostValidator = {
     const schema = Joi.object({
       title: Joi.string().min(3).max(95).required(),
       description: Joi.string().min(3).max(950),
-      UserId: Joi.number(),
     });
     const response = schema.validate(req.body);
     if (response.error) {
@@ -18,7 +17,6 @@ const PostValidator = {
     const schema = Joi.object({
       title: Joi.string().min(3).max(95).required(),
       description: Joi.string().min(3).max(950),
-      UserId: Joi.number(),
     });
     const response = schema.validate(req.body);
     if (response.error) {

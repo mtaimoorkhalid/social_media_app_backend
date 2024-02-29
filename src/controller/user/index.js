@@ -1,16 +1,25 @@
+import CommentModel from "../../model/comment/index.js";
 import UserModel from "../../model/user/index.js";
 import UserFollwerModel from "../../model/user/userFollowerModel.js";
+import PostModel from "../../model/post/index.js";
 
 const UserController = {
-  create: async (req, res) => {
+  getProfile: (req, res) => {
     try {
-      const { name, email, password } = req.body;
-      const doUserAlreadyExist = await UserModel.findOne({ where: { email } });
-      if (doUserAlreadyExist) {
-        return res.json({ message: "This Email Already Exist" });
+    } catch (error) {
+      return res.status(500).json({ message: "Server Error", error: error });
+    }
+  },
+  getFollower: async (req, res) => {
+    try {
+      const user = await UserModel.findByPk(req.user.id, {
+        include: ["followers"],
+      });
+      if (!user) {
+        return res.json({ message: "No Such User" });
       }
-      const user = await UserModel.create({ name, email, password });
-      res.json({ message: "User Created", user });
+
+      res.json({ user });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }
@@ -19,6 +28,23 @@ const UserController = {
     try {
       const user = await UserModel.findAll();
       res.json({ message: "Got All Users", user });
+    } catch (error) {
+      return res.status(500).json({ message: "Server Error", error: error });
+    }
+  },
+
+  getOne: async (req, res) => {
+    try {
+      console.log(req.user.id);
+      //const prams = req.params;
+      const user = await UserModel.findByPk(req.user.id, {
+        include: [CommentModel, PostModel, "followers", "followings"],
+      });
+      if (!user) {
+        return res.json({ message: "No Such User" });
+      }
+
+      res.json({ user });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }

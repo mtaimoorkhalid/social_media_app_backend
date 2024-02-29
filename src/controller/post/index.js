@@ -4,8 +4,14 @@ import UserModel from "../../model/user/index.js";
 const PostController = {
   create: async (req, res) => {
     try {
-      const { title, description, UserId } = req.body;
-      const post = await PostModel.create({ title, description, UserId });
+      const { title, description } = req.body;
+      const userId = req.user.id;
+      console.log(userId);
+      const post = await PostModel.create({
+        title,
+        description,
+        UserId: userId,
+      });
       res.json({ message: "Post Created", post });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
@@ -14,7 +20,6 @@ const PostController = {
   get: async (req, res) => {
     try {
       const post = await PostModel.findAll({ include: [UserModel] });
-
       res.json({ message: "Got All Post", post });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });

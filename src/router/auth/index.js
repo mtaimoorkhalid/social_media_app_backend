@@ -1,6 +1,9 @@
-import AuthController from "../../controller/auth/index.js";
 import { Router } from "express";
+import AuthController from "../../controller/auth/index.js";
+import UserValidator from "../../validator/user/index.js";
+
 const AuthRouter = Router();
-AuthRouter.post("/auth", AuthController.login);
+AuthRouter.post("/login", UserValidator.login, AuthController.login);
+AuthRouter.post("/register", UserValidator.register, AuthController.register);
 
 export default AuthRouter;

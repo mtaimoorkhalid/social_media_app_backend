@@ -5,10 +5,11 @@ import UserModel from "../../model/user/index.js";
 const CommentController = {
   create: async (req, res) => {
     try {
-      const { description, UserId, PostId } = req.body;
+      const { description, PostId } = req.body;
+      const userId = req.user.id;
       const comment = await CommentModel.create({
         description,
-        UserId,
+        UserId: userId,
         PostId,
       });
       res.json({ message: "Comment Created", comment });
