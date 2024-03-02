@@ -4,24 +4,64 @@ import UserFollwerModel from "../../model/user/userFollowerModel.js";
 import PostModel from "../../model/post/index.js";
 
 const UserController = {
-  getProfile: (req, res) => {
+  getProfile: async (req, res) => {
     try {
+      const userId = req.user.id;
+      const user = await UserModel.findByPk(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const posts = await PostModel.findAll({ where: { UserId: userId } });
+      const followerCount = await UserFollwerModel.count({
+        where: { followingId: userId },
+      });
+      const followingCount = await UserFollwerModel.count({
+        where: { followerId: userId },
+      });
+      const postsCount = await PostModel.count({ where: { UserId: userId } });
+
+      res.json({
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          followerCount,
+          followingCount,
+          postsCount,
+          posts,
+        },
+      });
     } catch (error) {
-      return res.status(500).json({ message: "Server Error", error: error });
+      return res.status(500).json({ message: "Server Error", error });
     }
   },
   getFollower: async (req, res) => {
     try {
-      const user = await UserModel.findByPk(req.user.id, {
-        include: ["followers"],
+      const followers = await UserFollwerModel.findAll({
+        where: { followingId: req.user.id },
       });
-      if (!user) {
-        return res.json({ message: "No Such User" });
+      if (!followers || followers.length === 0) {
+        return res.json({ message: "No followers" });
       }
-
-      res.json({ user });
+      res.json({ followers });
     } catch (error) {
-      return res.status(500).json({ message: "Server Error", error: error });
+      return res.status(500).json({ message: "Server Error", error });
+    }
+  },
+  getFollowing: async (req, res) => {
+    try {
+      const followings = await UserFollwerModel.findAll({
+        where: { followerId: req.user.id },
+        include: [{ model: UserModel, as: "following" }],
+      });
+
+      if (!followings || followings.length === 0) {
+        return res.json({ message: "No followings" });
+      }
+      res.json({ followings });
+    } catch (error) {
+      return res.status(500).json({ message: "Server Error", error });
     }
   },
   get: async (req, res) => {
@@ -52,8 +92,7 @@ const UserController = {
   update: async (req, res) => {
     try {
       const { name, email, password } = req.body;
-      const prams = req.params;
-      const user = await UserModel.findByPk(prams.userId);
+      const user = await UserModel.findByPk(req.user.id);
       if (!user) {
         return res.json({ message: "No Such User" });
       }
@@ -69,7 +108,7 @@ const UserController = {
   delete: async (req, res) => {
     try {
       const param = req.params;
-      const user = await UserModel.findByPk(param.userId);
+      const user = await UserModel.findByPk(req.user.id);
       if (!user) {
         res.status(404).json({ message: "User Not Found" });
       }
@@ -90,14 +129,14 @@ const UserController = {
 
   follow: async (req, res) => {
     try {
-      const { followerId, followingId } = req.body;
+      const { followingId } = req.body;
       console.log(req.body);
       const data = await UserFollwerModel.create({
-        followerId: followerId,
+        followerId: req.user.id,
         followingId: followingId,
       });
       console.log(data);
-      res.json({ message: "Ho gya" });
+      res.json({ message: `You Followed User with ID ${followingId}` });
     } catch (error) {
       return res.json({ error });
     }
@@ -106,7 +145,7 @@ const UserController = {
   getFollowerById: async (req, res) => {
     try {
       const params = req.params;
-      const user = await UserModel.findByPk(params.id, {
+      const user = await UserModel.findByPk(req.user.id, {
         include: ["follower", "following"],
       });
       if (!user) {
