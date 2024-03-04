@@ -40,6 +40,7 @@ const UserController = {
     try {
       const followers = await UserFollwerModel.findAll({
         where: { followingId: req.user.id },
+        // include: [UserModel],
       });
       if (!followers || followers.length === 0) {
         return res.json({ message: "No followers" });
@@ -53,6 +54,7 @@ const UserController = {
     try {
       const following = await UserFollwerModel.findAll({
         where: { followerId: req.user.id },
+        // include: [UserModel],
       });
       if (!following || following.length === 0) {
         return res.json({ message: "No followings" });

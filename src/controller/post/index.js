@@ -1,5 +1,6 @@
 import PostModel from "../../model/post/index.js";
 import UserModel from "../../model/user/index.js";
+import UserFollwerModel from "../../model/user/userFollowerModel.js";
 
 const PostController = {
   create: async (req, res) => {
@@ -63,6 +64,37 @@ const PostController = {
       res.json({ message: "Post Has been deleted" });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
+    }
+  },
+  timeline: async (req, res) => {
+    try {
+      const userId = req.user.id;
+
+      const followingUsers = await UserFollwerModel.findAll({
+        where: { followerId: userId },
+        attributes: [],
+        include: [
+          {
+            model: UserModel,
+            as: "following",
+            attributes: ["id"],
+          },
+        ],
+      });
+
+      const followingUserIds = followingUsers.map((user) => user.following.id);
+
+      const timelinePosts = await PostModel.findAll({
+        where: { UserId: followingUserIds },
+        include: [{ model: UserModel, attributes: ["id", "name", "email"] }],
+      });
+
+      res.json({ timelinePosts });
+    } catch (error) {
+      console.error("Error in timeline method:", error); // Log detailed error message
+      return res
+        .status(500)
+        .json({ message: "An error occurred", error: error.message }); // Send detailed error message in response
     }
   },
 };

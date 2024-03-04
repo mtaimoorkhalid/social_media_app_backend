@@ -10,4 +10,10 @@ app.use(allRouters);
 app.listen(3000, console.log("Server Started"));
 connectDb();
 syncDb();
+app.use((err, req, res, next) => {
+  console.error("Error:", err); // Log detailed error message
+  res
+    .status(500)
+    .json({ message: "Internal Server Error", error: err.message }); // Send detailed error message in response
+});
 // main();

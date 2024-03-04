@@ -18,7 +18,7 @@ const UserValidator = {
   },
   register: (req, res, next) => {
     const schema = Joi.object({
-      name: Joi.string().min(3).max(1000).required(),
+      name: Joi.string().min(3).max(100).required(),
       email: Joi.string().email({
         minDomainSegments: 2,
         tlds: { allow: ["com", "net"] },

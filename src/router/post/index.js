@@ -21,5 +21,6 @@ PostRouter.delete(
   AuthenticateMiddleware,
   PostController.delete
 );
+PostRouter.get("/timeline", AuthenticateMiddleware, PostController.timeline);
 // PostRouter.delete("/post", AuthenticateMiddleware, PostController.deleteAll);
 export default PostRouter;

@@ -11,7 +11,7 @@ const AuthController = {
 
       const user = await UserModel.findOne({ where: { email } });
       if (!user) {
-        return res.status(401).json({ message: "Invalid Credentials" });
+        return res.status(401).json({ message: "User Not Found" });
       }
       const result = await bcrypt.compare(password, user.password);
       if (!result) {
