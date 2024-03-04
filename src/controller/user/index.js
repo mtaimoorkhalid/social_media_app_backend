@@ -51,30 +51,18 @@ const UserController = {
   },
   getFollowing: async (req, res) => {
     try {
-      const followings = await UserFollwerModel.findAll({
+      const following = await UserFollwerModel.findAll({
         where: { followerId: req.user.id },
-        include: [
-          {
-            model: UserModel,
-            as: "following",
-            attributes: ["id", "name", "email"],
-          },
-        ],
       });
-
-      if (!followings || followings.length === 0) {
+      if (!following || following.length === 0) {
         return res.json({ message: "No followings" });
       }
-      res.json({
-        followingId: followings.followingId,
-        id: followings.following.id,
-        name: followings.following.name,
-        email: followings.following.email,
-      });
+      res.json({ following });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error });
     }
   },
+
   get: async (req, res) => {
     try {
       const user = await UserModel.findAll();
@@ -84,22 +72,6 @@ const UserController = {
     }
   },
 
-  // getOne: async (req, res) => {
-  //   try {
-  //     console.log(req.user.id);
-  //     //const prams = req.params;
-  //     const user = await UserModel.findByPk(req.user.id, {
-  //       include: [CommentModel, PostModel, "followers", "followings"],
-  //     });
-  //     if (!user) {
-  //       return res.json({ message: "No Such User" });
-  //     }
-
-  //     res.json({ user });
-  //   } catch (error) {
-  //     return res.status(500).json({ message: "Server Error", error: error });
-  //   }
-  // },
   update: async (req, res) => {
     try {
       const { name, email, password } = req.body;
@@ -129,14 +101,6 @@ const UserController = {
       return res.status(500).json({ message: "Server Error", error: error });
     }
   },
-  // deleteAll: async (req, res) => {
-  //   try {
-  //     await UserModel.destroy();
-  //     res.json({ message: "All Users Deleted Sucessfully!" });
-  //   } catch (error) {
-  //     return res.status(500).json({ message: "Server Error", error: error });
-  //   }
-  // },
 
   follow: async (req, res) => {
     try {
@@ -178,7 +142,30 @@ const UserController = {
       return res.json({ error });
     }
   },
+  // deleteAll: async (req, res) => {
+  //   try {
+  //     await UserModel.destroy();
+  //     res.json({ message: "All Users Deleted Sucessfully!" });
+  //   } catch (error) {
+  //     return res.status(500).json({ message: "Server Error", error: error });
+  //   }
+  // },
+  // getOne: async (req, res) => {
+  //   try {
+  //     console.log(req.user.id);
+  //     //const prams = req.params;
+  //     const user = await UserModel.findByPk(req.user.id, {
+  //       include: [CommentModel, PostModel, "followers", "followings"],
+  //     });
+  //     if (!user) {
+  //       return res.json({ message: "No Such User" });
+  //     }
 
+  //     res.json({ user });
+  //   } catch (error) {
+  //     return res.status(500).json({ message: "Server Error", error: error });
+  //   }
+  // },
   // getFollowerById: async (req, res) => {
   //   try {
   //     const params = req.params;

@@ -36,7 +36,7 @@ const PostController = {
       post.title = title;
       post.desription = description;
       await post.save();
-      res.json({ message: "Posts Update", post });
+      res.json({ message: "Posts Updated", post });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }

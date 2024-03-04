@@ -21,9 +21,5 @@ CommentRouter.delete(
   AuthenticateMiddleware,
   CommentController.delete
 );
-CommentRouter.delete("/comment", CommentController.deleteAll);
-// CommentRouter.get("*", CommentController.notFound);
-// CommentRouter.post("*", CommentController.notFound);
-// CommentRouter.put("*", CommentController.notFound);
-// CommentRouter.delete("*", CommentController.notFound);
+// CommentRouter.delete("/comment", CommentController.deleteAll);
 export default CommentRouter;

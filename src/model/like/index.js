@@ -3,16 +3,16 @@ import { DataTypes } from "sequelize";
 import UserModel from "../user/index.js";
 import PostModel from "../post/index.js";
 
-const CommentModel = sequelize.define(
-  "Comment",
+const LikeModel = sequelize.define(
+  "Like",
   {
-    description: DataTypes.STRING(1000),
+    count: DataTypes.STRING(),
   },
   {}
 );
-UserModel.hasMany(CommentModel);
-CommentModel.belongsTo(UserModel);
-PostModel.hasMany(CommentModel);
-CommentModel.belongsTo(PostModel);
+UserModel.hasOne(LikeModel);
+LikeModel.belongsTo(UserModel);
+PostModel.hasMany(LikeModel);
+LikeModel.belongsTo(PostModel);
 
-export default CommentModel;
+export default LikeModel;

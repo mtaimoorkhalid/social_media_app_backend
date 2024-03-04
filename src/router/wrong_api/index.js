@@ -1,0 +1,11 @@
+import { Router } from "express";
+import WrongAPIController from "../../controller/wrong_api/index.js";
+const WrongApiRouter = Router();
+WrongApiRouter.get("*", WrongAPIController.wrongApi);
+WrongApiRouter.post("*", WrongAPIController.wrongApi);
+WrongApiRouter.put("*", WrongAPIController.wrongApi);
+WrongApiRouter.delete("*", WrongAPIController.wrongApi);
+WrongApiRouter.patch("*", WrongAPIController.wrongApi);
+WrongApiRouter.options("*", WrongAPIController.wrongApi);
+WrongApiRouter.head("*", WrongAPIController.wrongApi);
+export default WrongApiRouter;

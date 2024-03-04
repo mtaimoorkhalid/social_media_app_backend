@@ -1,29 +1,29 @@
-import CommentModel from "../../model/comment/index.js";
 import PostModel from "../../model/post/index.js";
 import UserModel from "../../model/user/index.js";
+import LikeModel from "../../model/like/index.js";
 
-const CommentController = {
+const LikeController = {
   create: async (req, res) => {
     try {
       const { description, PostId } = req.body;
       const userId = req.user.id;
-      const comment = await CommentModel.create({
+      const like = await LikeModel.create({
         description,
         UserId: userId,
         PostId,
       });
-      res.json({ message: "Comment Created", comment });
+      res.json({ message: "Like Created", like });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }
   },
   get: async (req, res) => {
     try {
-      const comment = await CommentModel.findAll({
+      const like = await LikeModel.findAll({
         include: [UserModel, PostModel],
       });
 
-      res.json({ message: "Got All Comments", comment });
+      res.json({ message: "Got All Like", like });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }
@@ -31,11 +31,11 @@ const CommentController = {
   getOne: async (req, res) => {
     try {
       const params = req.params;
-      const comment = await CommentModel.findByPk(params.PostId, {
+      const like = await LikeModel.findByPk(params.PostId, {
         include: [UserModel, PostModel],
       });
 
-      res.json({ message: "Got Comments", comment });
+      res.json({ message: "Got Likes", like });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }
@@ -44,13 +44,13 @@ const CommentController = {
     try {
       const { description } = req.body;
       const prams = req.params;
-      const comment = await CommentModel.findByPk(prams.commentId);
-      if (!comment) {
+      const like = await LikeModel.findByPk(prams.commentId);
+      if (!like) {
         return res.status(404).json({ message: "Not User Found" });
       }
-      comment.description = description;
-      await comment.save();
-      res.json({ message: "Comments Update", comment });
+      like.description = description;
+      await like.save();
+      res.json({ message: "Like Update", comment });
     } catch (error) {
       return res.status(500).json({ message: "Server Error", error: error });
     }
@@ -58,7 +58,7 @@ const CommentController = {
 
   deleteAll: async (req, res) => {
     try {
-      await CommentModel.destroy({
+      await LikeModel.destroy({
         where: {},
         truncate: true,
       });
@@ -70,7 +70,7 @@ const CommentController = {
   delete: async (req, res) => {
     try {
       const params = req.params;
-      const comment = await CommentModel.findByPk(params.commentId);
+      const comment = await LikeModel.findByPk(params.commentId);
       if (!comment) {
         return res.status(404).json({ message: "Comment not found" });
       } else {

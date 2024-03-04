@@ -26,12 +26,12 @@ const AuthController = {
           expiresIn: "40m",
         }
       );
-      res.json({ response });
+      res.json({ message: "Login Sucessfull", response });
       if (response.error) {
         return res.json({ error: response.error });
       }
     } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+      return res.status(500).json({ message: "Server Error", error });
     }
   },
   register: async (req, res) => {
