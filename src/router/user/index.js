@@ -22,7 +22,7 @@ UserRouter.delete(
   UserController.delete
 );
 // UserRouter.delete("/post", UserController.deleteAll);
-UserRouter.post("/user/follow", AuthenticateMiddleware, UserController.follow);
+
 UserRouter.get(
   "/user/getfollowers",
   AuthenticateMiddleware,
@@ -33,6 +33,18 @@ UserRouter.get(
   "/user/getfollowings",
   AuthenticateMiddleware,
   UserController.getFollowing
+);
+UserRouter.post("/user/follow", AuthenticateMiddleware, UserController.follow);
+
+UserRouter.delete(
+  "/user/unfollow",
+  AuthenticateMiddleware,
+  UserController.unfollow
+);
+UserRouter.delete(
+  "/user/removeFollower",
+  AuthenticateMiddleware,
+  UserController.removeFollower
 );
 
 export default UserRouter;

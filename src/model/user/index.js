@@ -6,7 +6,7 @@ const UserModel = sequelize.define(
   {
     name: { type: DataTypes.STRING(50) },
     email: { type: DataTypes.STRING(50) },
-    password: { type: DataTypes.STRING(50) },
+    password: { type: DataTypes.STRING(500) },
   },
   {}
 );

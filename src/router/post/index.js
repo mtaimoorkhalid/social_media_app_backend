@@ -10,7 +10,16 @@ PostRouter.post(
   AuthenticateMiddleware,
   PostController.create
 );
-PostRouter.put("/post/:postId", PostValidator.update, PostController.update);
-PostRouter.delete("/post/:postId", PostController.delete);
-PostRouter.delete("/post", PostController.deleteAll);
+PostRouter.put(
+  "/post/:postId",
+  AuthenticateMiddleware,
+  PostValidator.update,
+  PostController.update
+);
+PostRouter.delete(
+  "/post/:postId",
+  AuthenticateMiddleware,
+  PostController.delete
+);
+// PostRouter.delete("/post", AuthenticateMiddleware, PostController.deleteAll);
 export default PostRouter;

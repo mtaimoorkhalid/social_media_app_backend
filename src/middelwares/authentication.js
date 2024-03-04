@@ -5,9 +5,6 @@ const AuthenticateMiddleware = (req, res, next) => {
 
   let token = headers.authorization;
   token = token.split(" ");
-  console.log(
-    "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-  );
   console.log(token);
   token = token[1];
 
