@@ -87,6 +87,7 @@ const PostController = {
       const timelinePosts = await PostModel.findAll({
         where: { UserId: followingUserIds },
         include: [{ model: UserModel, attributes: ["id", "name", "email"] }],
+        order: [["createdAt", "DESC"]],
       });
 
       res.json({ timelinePosts });
