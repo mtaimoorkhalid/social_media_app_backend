@@ -92,10 +92,10 @@ const PostController = {
 
       res.json({ timelinePosts });
     } catch (error) {
-      console.error("Error in timeline method:", error); // Log detailed error message
+      console.error("Error in timeline method:", error); 
       return res
         .status(500)
-        .json({ message: "An error occurred", error: error.message }); // Send detailed error message in response
+        .json({ message: "An error occurred", error: error.message }); 
     }
   },
 };

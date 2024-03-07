@@ -3,7 +3,7 @@ import Jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 // passport.js
 // career counselinbg society
-
+const BLACKLIST = new Set();
 const AuthController = {
   login: async (req, res) => {
     try {
@@ -49,5 +49,16 @@ const AuthController = {
       return res.status(500).json({ message: "Server Error", error: error });
     }
   },
+
+  logout: (req, res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    if (token) {
+      BLACKLIST.add(token);
+      return res.json({ message: "Token revoked" });
+    } else {
+      return res.status(400).json({ message: "Token not provided" });
+    }
+  },
 };
 export default AuthController;
+export { BLACKLIST };
